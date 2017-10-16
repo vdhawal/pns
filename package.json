@@ -1,0 +1,25 @@
+{
+  "name": "pns",
+  "version": "1.0.0",
+  "description": "Push Notification System across multiple delivery channels",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/vadhawal/pns"
+  },
+  "keywords": [
+    "Push Notification System"
+  ],
+  "author": "Vickramaditya Dhawal",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "^16.6.2",
+    "inert": "^4.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0"
+  }
+}
