@@ -14,7 +14,7 @@ const server = new Hapi.Server({
     }
 });
 
-server.connection({ 
+server.connection({
     host: "0.0.0.0",
     port: 8000
 });
@@ -24,7 +24,7 @@ server.register(require("inert"), (err) => {
     if (err) {
         throw err;
     }
-    
+
     server.route({
         method: 'GET',
         path: '/{param*}',
@@ -36,7 +36,16 @@ server.register(require("inert"), (err) => {
             }
         }
     });
-    
+
+    server.route({
+        method: 'GET',
+        path: '/hello',
+        handler: (request, reply) => {
+            reply('Hello World!');
+        }
+
+    });
+
     server.start((err) => {
 
         if (err) {
