@@ -1,9 +1,9 @@
 // Import and configure the Firebase SDK
 // These scripts are made available when the app is served or deployed on Firebase Hosting
 // If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup
-importScripts('/firebase-app.js');
-importScripts('/firebase-messaging.js');
-importScripts('/init.js');
+importScripts('js/firebase-app.js');
+importScripts('js/firebase-messaging.js');
+importScripts('js/init.js');
 
 const messaging = firebase.messaging();
 
@@ -41,7 +41,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
   const notificationTitle = 'Background Message Title';
   const notificationOptions = {
     body: 'Background Message body.',
-    icon: '/firebase-logo.png'
+    icon: 'images/firebase-logo.png'
   };
 
   return self.registration.showNotification(notificationTitle,
