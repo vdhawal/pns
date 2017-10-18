@@ -3,6 +3,7 @@
 const Path = require('path');
 const Hapi = require('hapi');
 const Inert = require('inert');
+const routes = require('./routes');
 
 const server = new Hapi.Server({
     connections: {
@@ -37,6 +38,7 @@ server.register(require("inert"), (err) => {
         }
     });
 
+    /*test route*/
     server.route({
         method: 'GET',
         path: '/hello',
@@ -45,6 +47,12 @@ server.register(require("inert"), (err) => {
         }
 
     });
+
+    routes.forEach( ( route ) => {
+        console.log( `attaching ${ route.path }` );
+        server.route( route );
+
+    } );
 
     server.start((err) => {
 
