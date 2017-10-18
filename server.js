@@ -20,46 +20,71 @@ server.connection({
     port: 8000
 });
 
-server.register(require("inert"), (err) => {
+var fs = require("fs");
+var dbInfo = fs.readFileSync("./dbinfo.json");
 
+dbInfo = JSON.parse(dbInfo);
+
+var uri = dbInfo.uri;
+
+var MongoClient = require('mongodb').MongoClient;
+MongoClient.connect(uri, function (err, db) {
     if (err) {
-        throw err;
+        server.log('error', err);
+        process.exit(0);
+        return;
     }
 
-    server.route({
-        method: 'GET',
-        path: '/{param*}',
-        handler: {
-            directory: {
-                path: '.',
-                redirectToSlash: true,
-                index: true,
-            }
-        }
+    server.decorate('request', 'getMongo', function () {
+        return db;
     });
 
-    /*test route*/
-    server.route({
-        method: 'GET',
-        path: '/hello',
-        handler: (request, reply) => {
-            reply('Hello World!');
-        }
-
-    });
-
-    routes.forEach( ( route ) => {
-        console.log( `attaching ${ route.path }` );
-        server.route( route );
-
-    } );
-
-    server.start((err) => {
+    server.register(require("inert"), (err) => {
 
         if (err) {
             throw err;
         }
 
-        console.log("Server running at:", server.info.uri);
+        server.route({
+            method: 'GET',
+            path: '/{param*}',
+            handler: {
+                directory: {
+                    path: '.',
+                    redirectToSlash: true,
+                    index: true,
+                }
+            }
+        });
+
+        /*test route*/
+        server.route({
+            method: 'GET',
+            path: '/hello',
+            handler: (request, reply) => {
+                reply('Hello World!');
+            }
+
+        });
+
+        routes.forEach((route) => {
+            console.log(`attaching ${ route.path }`);
+            server.route(route);
+
+        });
+
+        server.start((err) => {
+
+            if (err) {
+                throw err;
+            }
+
+            var col = db.collection("userinfo");
+            col.count().then(function (count) {
+                console.log("mongdb " + count);
+            });
+
+            console.log("Server running at:", server.info.uri);
+        });
     });
 });
