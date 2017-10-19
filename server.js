@@ -2,7 +2,7 @@
 
 const Path = require('path');
 const Hapi = require('hapi');
-const Inert = require('inert');
+const Inert = require('inert'); /*to server static files*/
 const routes = require('./routes');
 
 const server = new Hapi.Server({
@@ -35,6 +35,7 @@ MongoClient.connect(uri, function (err, db) {
         return;
     }
 
+    /*Adding a DB decorator for all requests to get access*/
     server.decorate('request', 'getMongo', function () {
         return db;
     });
@@ -67,22 +68,19 @@ MongoClient.connect(uri, function (err, db) {
 
         });
 
+        /*Loading all routes*/
         routes.forEach((route) => {
             console.log(`attaching ${ route.path }`);
             server.route(route);
 
         });
 
+        /*Starting the server*/
         server.start((err) => {
 
             if (err) {
                 throw err;
             }
-
-            var col = db.collection("userinfo");
-            col.count().then(function (count) {
-                console.log("mongdb " + count);
-            });
 
             console.log("Server running at:", server.info.uri);
         });

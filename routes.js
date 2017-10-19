@@ -5,7 +5,12 @@ const routes = [
         path: '/users',
         method: 'GET',
         handler: ( request, reply ) => {
-            reply('GET all users');
+            /*showing a sample DB interaction here*/
+            var db = request.getMongo();
+            var col = db.collection("userinfo");
+            col.count().then(function (count) {
+                reply('GET all users - MongoDB count userinfo count: ' + count) ;
+            });
         }
     },
     {
