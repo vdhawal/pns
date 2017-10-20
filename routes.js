@@ -9,9 +9,8 @@ const routes = [
             var db = request.getMongo();
             var col = db.collection("userinfo");
             /*Fetch all the users to display in the UI*/
-            col.find({}).explain( (err, explain) => {
-                /* Figure out how to stream all documents as this returns the cursor */
-                reply(JSON.stringify(explain));
+            col.find({}).toArray( (err, docs) => {
+                reply(JSON.stringify(docs));
             });
         }
     },
