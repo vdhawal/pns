@@ -2,18 +2,16 @@
 
 const routes = [
     {
-        path: '/users',
+        path: '/users', /*Fetch all the users to display in the UI*/
         method: 'GET',
-        handler: ( request, reply ) => {
-            /*showing a sample DB interaction here*/
+        handler: (request, reply) => {
             var db = request.getMongo();
             var col = db.collection("userinfo");
             var resultObj = {
-                    "success": true,
-                    "result": []
-                };
-            /*Fetch all the users to display in the UI*/
-            col.find({}).toArray( (err, docs) => {
+                "success": true,
+                "result": []
+            };
+            col.find({}).toArray((err, docs) => {
                 if (err) {
                     resultObj.success = false;
                 } else {
@@ -24,10 +22,10 @@ const routes = [
         }
     },
     {
-        path: '/users',
+        path: '/users', /*handle the post request of adding a user*/
         method: 'POST',
-        handler: ( request, reply ) => {
-            /*handle the post request of adding a user:-
+        handler: (request, reply) => {
+            /*
             {
                uuid   : string - to be sent to 3rd party for identification
                browser: string - chrome, firefox, safari etc
@@ -37,22 +35,37 @@ const routes = [
             var db = request.getMongo();
             var col = db.collection("userinfo");
             /*Handle the case where the uuid is already present in the system*/
-            col.insert(request.payload, null, (err, result) => {
+            col.find({"uuid": request.payload.uuid}).toArray((err, docs) => {
                 var resultObj = {
                     "success": true,
-                    "result": result
+                    "result": docs
                 };
+                console.log(JSON.stringify(docs));
                 if (err) {
-                    resultObj.success = false;
+                    resultObj.succes = false;
+                    reply(JSON.stringify(resultObj));
+                } else {
+                    if (docs.length) {
+                        resultObj.success = false;
+                        resultObj.result = "UUID already exists";
+                        reply(JSON.stringify(resultObj));
+                    } else {
+                        col.insert(request.payload, null, (err, result) => {
+                            resultObj.result = result;
+                            if (err) {
+                                resultObj.success = false;
+                            }
+                            reply(JSON.stringify(resultObj));
+                        });
+                    }
                 }
-                reply(JSON.stringify(resultObj));
             });
         }
     },
     {
         path: "/users/delete", /*Delete All users for a fresh demo*/
         method: "GET",
-        handler: ( request, reply ) => {
+        handler: (request, reply) => {
             var db = request.getMongo();
             var col = db.collection("userinfo");
             col.deleteMany({}, null, (err, result) => {
@@ -70,7 +83,7 @@ const routes = [
     {
         path: '/message',
         method: 'POST',
-        handler: ( request, reply ) => {
+        handler: (request, reply) => {
             reply('POST an array of messages');
         }
     }
