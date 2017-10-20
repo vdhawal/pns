@@ -8,9 +8,18 @@ const routes = [
             /*showing a sample DB interaction here*/
             var db = request.getMongo();
             var col = db.collection("userinfo");
+            var resultObj = {
+                    "success": true,
+                    "result": []
+                };
             /*Fetch all the users to display in the UI*/
             col.find({}).toArray( (err, docs) => {
-                reply(JSON.stringify(docs));
+                if (err) {
+                    resultObj.success = false;
+                } else {
+                    resultObj.result = docs;
+                }
+                reply(JSON.stringify(resultObj));
             });
         }
     },
