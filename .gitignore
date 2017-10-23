@@ -7,6 +7,7 @@ yarn-error.log*
 sudo
 
 dbinfo.json
+senderInfo.json
 
 # Runtime data
 pids
