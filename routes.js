@@ -1,5 +1,11 @@
 'use strict';
 
+var fs = require("fs");
+var senderInfo = fs.readFileSync("./senderInfo.json");
+
+senderInfo = JSON.parse(senderInfo);
+var sender_key = senderInfo.sender_key;
+
 const routes = [
     {
         path: '/users', /*Fetch all the users to display in the UI*/
@@ -84,9 +90,46 @@ const routes = [
         path: '/message',
         method: 'POST',
         handler: (request, reply) => {
-            reply('POST an array of messages');
+            var db = request.getMongo();
+            var col = db.collection("userinfo");
+            col.find().forEach( function(user) { 
+                try{
+                    sendMessage(request.payload.message, user.uuid);
+                }
+                catch(e)
+                {
+                    console.log(e.message);
+                }
+            });
         }
     }
 ];
+
+function sendMessage(message, reciever){
+    
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    var xhr = new XMLHttpRequest();   // new HttpRequest instance 
+    xhr.open('POST', "https://fcm.googleapis.com/fcm/send", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader("Authorization", "key="+sender_key);
+
+    xhr.onload = function () {
+        // do something to response
+    console.log(this.responseText);
+    }; 
+    var obj = {
+        "notification":{
+            "title": "Sample Notification",
+            "body": message
+        },
+        "to": reciever
+        }
+        try{
+            xhr.send(JSON.stringify(obj));
+        }
+        catch(e){
+            console.log(e.message);
+        }
+}
 
 module.exports = routes;
