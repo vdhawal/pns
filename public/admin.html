@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Admin</title>
+        
+        <!-- Material Design Theming -->
+        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+        <script src="js/admin.js"></script>
+    </head>
+    <body>
+        <textarea class = "mdl-textfield" placeholder="Enter Message here..." id="Message"></textarea><br>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                onclick="sendNotification()">Send Notification</button>
+        <p id="send_status"></p>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                onclick="deleteAllEntriesFromDb()">Clear Entries From Database</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                onclick="window.open('/users')">View Users</button>
+    </body>
+</html>
