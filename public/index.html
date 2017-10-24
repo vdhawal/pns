@@ -198,6 +198,7 @@ limitations under the License.
                     messaging.deleteToken(currentToken)
                         .then(function () {
                             console.log('Token deleted.');
+                            removeTokenFromDB(currentToken);
                             setTokenSentToServer(false);
                             // [START_EXCLUDE]
                             // Once token is deleted update UI.

@@ -69,6 +69,24 @@ const routes = [
         }
     },
     {
+        path: '/users', /*Delete user on Unsubscribe or token refresh*/
+        method: 'DELETE',
+        handler: (request, reply) => {
+            var db = request.getMongo();
+            var col = db.collection("userinfo");
+            col.remove({uuid:request.payload.token}, true, (err, result) => {
+                var resultObj = {
+                    "success": true,
+                    "result": result
+                };
+                if (err) {
+                    resultObj.success = false;
+                }
+                reply(JSON.stringify(resultObj));
+            });
+        }
+    },
+    {
         path: "/users/delete", /*Delete All users for a fresh demo*/
         method: "GET",
         handler: (request, reply) => {

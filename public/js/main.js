@@ -35,6 +35,24 @@ function setTokenSentToServer(sent) {
     window.localStorage.setItem('sentToServer', sent ? 1 : 0);
 }
 
+
+function removeTokenFromDB(currentToken){
+    var xhr = new XMLHttpRequest();   // new HttpRequest instance 
+    xhr.open('DELETE', '/users', true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onload = function () {
+        console.log(this.responseText);
+    }; 
+
+    var payload = 
+    {
+        token : currentToken
+    };
+
+    xhr.send(JSON.stringify(payload));
+}
+
 function getCurrentBrowserName() {
     if(navigator.userAgent.indexOf("Opera") != -1 || navigator.userAgent.indexOf('OPR') != -1 ) 
     {
