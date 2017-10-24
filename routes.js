@@ -120,6 +120,18 @@ const routes = [
                 }
             });
         }
+    },
+    {
+        path: "/admin",
+        method: "GET",
+        handler: (request, reply) => {
+            try{
+                reply.file("/admin.html");
+            }
+            catch(e){
+                console.log(e.message);
+            }
+        }
     }
 ];
 
