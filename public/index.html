@@ -102,7 +102,7 @@ limitations under the License.
                     // app server.
                     setTokenSentToServer(false);
                     // Send Instance ID token to app server.
-                    sendTokenToServer(refreshedToken);
+                    sendTokenToServer(refreshedToken, "Doc-3");
                     // [START_EXCLUDE]
                     // Display new Instance ID token and clear UI of all previous messages.
                     resetUI();
@@ -138,7 +138,7 @@ limitations under the License.
             messaging.getToken()
                 .then(function (currentToken) {
                     if (currentToken) {
-                        sendTokenToServer(currentToken);
+                        sendTokenToServer(currentToken, "Doc-3");
                         updateUIForPushEnabled(currentToken);
                     } else {
                         // Show permission request.

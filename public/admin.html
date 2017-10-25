@@ -60,9 +60,9 @@
             xmlhttp = new XMLHttpRequest();
             xmlhttp.onload = function() {
                     myObj = JSON.parse(this.responseText);
-                    txt += "<table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp'><caption>Subscribers</caption><thead><tr><th class='mdl-data-table__cell--non-numeric'>Browser</th><th>OS</th><th>Service</th></tr></thead><tbody>"
+                    txt += "<table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp'><caption>Subscribers</caption><thead><tr><th class='mdl-data-table__cell--non-numeric'>Topic</th><th>Browser</th><th>OS</th><th>Service</th></tr></thead><tbody>"
                     myObj.result.forEach(function(user){
-                        txt += "<tr><td class='mdl-data-table__cell--non-numeric--selectable'>" + user.browser + "</td><td>" + user.os + "</td><td>" + user.service + "</td></tr>";
+                        txt += "<tr><td class='mdl-data-table__cell--non-numeric--selectable'>" + user.topic + "</td><td>" + user.browser + "</td><td>" + user.os + "</td><td>" + user.service + "</td></tr>";
                     });
                     txt += "</tbody></table>" 
                     document.getElementById("users").innerHTML = txt;

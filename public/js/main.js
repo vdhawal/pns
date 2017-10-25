@@ -1,7 +1,7 @@
 // Send the Instance ID token your application server, so that it can:
 // - send messages back to this app
 // - subscribe/unsubscribe the token from topics
-function sendTokenToServer(currentToken) {
+function sendTokenToServer(currentToken, topic) {
     if (!isTokenSentToServer()) {
         console.log('Sending token to server...');
         var xhr = new XMLHttpRequest();   // new HttpRequest instance 
@@ -15,6 +15,7 @@ function sendTokenToServer(currentToken) {
         var messagingService = currentBrowser == "Safari" ? "apns" : "gcm";
         var info = {
             uuid : currentToken,
+            topic : topic,
             browser : currentBrowser,
             os : navigator.platform,
             service : messagingService
