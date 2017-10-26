@@ -108,11 +108,10 @@ const routes = [
         path: '/message',
         method: 'POST',
         handler: (request, reply) => {
-            var db = request.getMongo();
-            var col = db.collection("userinfo");
-            col.find().forEach( function(user) { 
+            var users = request.payload.users;
+            users.forEach( function(user) { 
                 try{
-                    sendMessage(request.payload.message, user.uuid);
+                    sendMessage(request.payload.message, user);
                 }
                 catch(e)
                 {
