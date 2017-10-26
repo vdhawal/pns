@@ -2,7 +2,7 @@
 // - send messages back to this app
 // - subscribe/unsubscribe the token from topics
 function sendTokenToServer(currentToken, topic) {
-    if (!isTokenSentToServer()) {
+  //  if (!isTokenSentToServer()) {
         console.log('Sending token to server...');
         var xhr = new XMLHttpRequest();   // new HttpRequest instance 
         xhr.open('POST', '/users', true);
@@ -22,10 +22,10 @@ function sendTokenToServer(currentToken, topic) {
         };
         xhr.send(JSON.stringify(info));
         setTokenSentToServer(true);
-    } else {
-        console.log('Token already sent to server so won\'t send it again ' +
-            'unless it changes');
-    }
+  //  } else {
+  //      console.log('Token already sent to server so won\'t send it again ' +
+  //          'unless it changes');
+  //  }
 }
 
 function isTokenSentToServer() {
