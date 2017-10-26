@@ -34,6 +34,7 @@ const routes = [
             /*
             {
                uuid   : string - to be sent to 3rd party for identification
+               topic  : string - to identify the channel to which user subscribes
                browser: string - chrome, firefox, safari etc
                os     : string - mac, win
                service: string - gcm, apns
@@ -41,7 +42,7 @@ const routes = [
             var db = request.getMongo();
             var col = db.collection("userinfo");
             /*Handle the case where the uuid is already present in the system*/
-            col.find({"uuid": request.payload.uuid}).toArray((err, docs) => {
+            col.find({"uuid": request.payload.uuid, "topic":request.payload.topic}).toArray((err, docs) => {
                 var resultObj = {
                     "success": true,
                     "result": docs
