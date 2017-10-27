@@ -5,6 +5,7 @@ function sendNotificationToSelectedUsers(){
         var uuid = value.innerHTML;
         userIds.push(uuid);
     });
+    userIds = userIds.filter( onlyUnique );
     var xhr = new XMLHttpRequest();   // new HttpRequest instance 
     xhr.open('POST', '/message', true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -24,4 +25,8 @@ function deleteAllEntriesFromDb(){
     xhr.open('GET', '/users/delete', true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send();
+}
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
 }
