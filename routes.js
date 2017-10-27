@@ -133,6 +133,7 @@ function sendMessage(message, reciever){
 
     xhr.onload = function () {
         // do something to response
+    reply(this.responseText);
     console.log(this.responseText);
     }; 
     var obj = {
