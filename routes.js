@@ -1,5 +1,11 @@
 'use strict';
 
+var fs = require("fs");
+var senderInfo = fs.readFileSync("./senderInfo.json");
+
+senderInfo = JSON.parse(senderInfo);
+var sender_key = senderInfo.sender_key;
+
 const routes = [
     {
         path: '/users', /*Fetch all the users to display in the UI*/
@@ -28,6 +34,7 @@ const routes = [
             /*
             {
                uuid   : string - to be sent to 3rd party for identification
+               topic  : string - to identify the channel to which user subscribes
                browser: string - chrome, firefox, safari etc
                os     : string - mac, win
                service: string - gcm, apns
@@ -35,7 +42,7 @@ const routes = [
             var db = request.getMongo();
             var col = db.collection("userinfo");
             /*Handle the case where the uuid is already present in the system*/
-            col.find({"uuid": request.payload.uuid}).toArray((err, docs) => {
+            col.find({"uuid": request.payload.uuid, "topic":request.payload.topic}).toArray((err, docs) => {
                 var resultObj = {
                     "success": true,
                     "result": docs
@@ -63,6 +70,24 @@ const routes = [
         }
     },
     {
+        path: '/users', /*Delete user on Unsubscribe or token refresh*/
+        method: 'DELETE',
+        handler: (request, reply) => {
+            var db = request.getMongo();
+            var col = db.collection("userinfo");
+            col.remove({uuid:request.payload.token}, true, (err, result) => {
+                var resultObj = {
+                    "success": true,
+                    "result": result
+                };
+                if (err) {
+                    resultObj.success = false;
+                }
+                reply(JSON.stringify(resultObj));
+            });
+        }
+    },
+    {
         path: "/users/delete", /*Delete All users for a fresh demo*/
         method: "GET",
         handler: (request, reply) => {
@@ -84,9 +109,45 @@ const routes = [
         path: '/message',
         method: 'POST',
         handler: (request, reply) => {
-            reply('POST an array of messages');
+            var users = request.payload.users;
+            users.forEach( function(user) { 
+                try{
+                    sendMessage(request.payload.message, user);
+                }
+                catch(e)
+                {
+                    console.log(e.message);
+                }
+            });
         }
     }
 ];
+
+function sendMessage(message, reciever){
+    
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    var xhr = new XMLHttpRequest();   // new HttpRequest instance 
+    xhr.open('POST', "https://fcm.googleapis.com/fcm/send", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.setRequestHeader("Authorization", "key="+sender_key);
+
+    xhr.onload = function () {
+        // do something to response
+    console.log(this.responseText);
+    }; 
+    var obj = {
+        "notification":{
+            "title": "Sample Notification",
+            "body": message
+        },
+        "to": reciever
+        }
+        try{
+            xhr.send(JSON.stringify(obj));
+        }
+        catch(e){
+            console.log(e.message);
+        }
+}
 
 module.exports = routes;

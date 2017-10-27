@@ -79,6 +79,8 @@ limitations under the License.
     <script src="js/firebase-app.js"></script>
     <script src="js/firebase-messaging.js"></script>
     <script src="js/init.js"></script>
+    
+    <script src="js/main.js"></script>
 
     <script>
         // [START get_messaging_object]
@@ -100,7 +102,7 @@ limitations under the License.
                     // app server.
                     setTokenSentToServer(false);
                     // Send Instance ID token to app server.
-                    sendTokenToServer(refreshedToken);
+                    sendTokenToServer(refreshedToken, "Doc-3");
                     // [START_EXCLUDE]
                     // Display new Instance ID token and clear UI of all previous messages.
                     resetUI();
@@ -136,7 +138,7 @@ limitations under the License.
             messaging.getToken()
                 .then(function (currentToken) {
                     if (currentToken) {
-                        sendTokenToServer(currentToken);
+                        sendTokenToServer(currentToken, "Doc-3");
                         updateUIForPushEnabled(currentToken);
                     } else {
                         // Show permission request.
@@ -158,29 +160,6 @@ limitations under the License.
             // Show token in console and UI.
             var tokenElement = document.querySelector('.token');
             tokenElement.textContent = currentToken;
-        }
-
-        // Send the Instance ID token your application server, so that it can:
-        // - send messages back to this app
-        // - subscribe/unsubscribe the token from topics
-        function sendTokenToServer(currentToken) {
-            if (!isTokenSentToServer()) {
-                console.log('Sending token to server...');
-                // TODO(developer): Send the current token to your server.
-                setTokenSentToServer(true);
-            } else {
-                console.log('Token already sent to server so won\'t send it again ' +
-                    'unless it changes');
-            }
-
-        }
-
-        function isTokenSentToServer() {
-            return window.localStorage.getItem('sentToServer') == 1;
-        }
-
-        function setTokenSentToServer(sent) {
-            window.localStorage.setItem('sentToServer', sent ? 1 : 0);
         }
 
         function showHideDiv(divId, show) {
@@ -219,6 +198,7 @@ limitations under the License.
                     messaging.deleteToken(currentToken)
                         .then(function () {
                             console.log('Token deleted.');
+                            removeTokenFromDB(currentToken);
                             setTokenSentToServer(false);
                             // [START_EXCLUDE]
                             // Once token is deleted update UI.
