@@ -1,5 +1,5 @@
 function sendNotificationToSelectedUsers(){
-    var selectedUsers = $("label.is-checked").closest("tr").find("td.uuid");
+    var selectedUsers = $("input.is-checked").closest("tr").find("td.uuid");
     var userIds = new Array();
     $.each( selectedUsers, function( key, value ) {
         var uuid = value.innerHTML;
