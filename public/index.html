@@ -91,6 +91,7 @@ limitations under the License.
         // IDs of divs that display Instance ID token UI or request permission UI.
         const tokenDivId = 'token_div';
         const permissionDivId = 'permission_div';
+        const DocId = "Doc-3";
 
         // [START refresh_token]
         // Callback fired if Instance ID token is updated.
@@ -102,7 +103,7 @@ limitations under the License.
                     // app server.
                     setTokenSentToServer(false);
                     // Send Instance ID token to app server.
-                    sendTokenToServer(refreshedToken, "Doc-3");
+                    sendTokenToServer(refreshedToken, DocId);
                     // [START_EXCLUDE]
                     // Display new Instance ID token and clear UI of all previous messages.
                     resetUI();
@@ -139,7 +140,7 @@ limitations under the License.
             messaging.getToken()
                 .then(function (currentToken) {
                     if (currentToken) {
-                        sendTokenToServer(currentToken, "Doc-3");
+                        sendTokenToServer(currentToken, DocId);
                         updateUIForPushEnabled(currentToken);
                     } else {
                         // Show permission request.
@@ -199,7 +200,7 @@ limitations under the License.
                     messaging.deleteToken(currentToken)
                         .then(function () {
                             console.log('Token deleted.');
-                            removeTokenFromDB(currentToken);
+                            removeTokenFromDB(currentToken,DocId);
                             setTokenSentToServer(false);
                             // [START_EXCLUDE]
                             // Once token is deleted update UI.

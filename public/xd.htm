@@ -2144,6 +2144,8 @@ div.button-container{
 const messaging = firebase.messaging();
 // [END get_messaging_object]
 
+const DocId = "Doc-1";
+
 
 function sendSubscriptionRequest() {
     // [START get_token]
@@ -2156,11 +2158,11 @@ function sendSubscriptionRequest() {
                 var subscription_status = elem.innerHTML;
                 if (subscription_status == "Unsubscribe")
                 {
-                    removeTokenFromDB(currentToken);
+                    removeTokenFromDB(currentToken, DocId);
                     elem.innerHTML = "Subscribe";
                 }
                 else{
-                    sendTokenToServer(currentToken, "Doc-1");
+                    sendTokenToServer(currentToken, DocId);
                     elem.innerHTML = "Unsubscribe";
                 }
             } else {

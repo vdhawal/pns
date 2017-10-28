@@ -37,7 +37,7 @@ function setTokenSentToServer(sent) {
 }
 
 
-function removeTokenFromDB(currentToken){
+function removeTokenFromDB(currentToken,currentTopic){
     var xhr = new XMLHttpRequest();   // new HttpRequest instance 
     xhr.open('DELETE', '/users', true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -48,7 +48,8 @@ function removeTokenFromDB(currentToken){
 
     var payload = 
     {
-        token : currentToken
+        token : currentToken,
+        topic : currentTopic
     };
 
     xhr.send(JSON.stringify(payload));

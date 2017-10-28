@@ -75,7 +75,7 @@ const routes = [
         handler: (request, reply) => {
             var db = request.getMongo();
             var col = db.collection("userinfo");
-            col.remove({uuid:request.payload.token}, true, (err, result) => {
+            col.remove({uuid:request.payload.token, topic:request.payload.topic}, true, (err, result) => {
                 var resultObj = {
                     "success": true,
                     "result": result
