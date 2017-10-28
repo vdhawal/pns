@@ -120,6 +120,32 @@ const routes = [
                 }
             });
         }
+    },
+    {
+        path: '/subscriptionStatus', /* status : false indicates token not present in DB*/
+        method: 'POST',
+        handler: (request, reply) => {
+            var db = request.getMongo();
+            var col = db.collection("userinfo");
+            col.find({"uuid": request.payload.token, "topic":request.payload.topic}).toArray((err, docs) => {
+                var resultObj = {
+                    "status": false
+                };
+                if (err) {
+                    resultObj.status = false;
+                    reply(JSON.stringify(resultObj));
+                }
+                else {
+                    if (docs.length) {
+                        resultObj.status = true;
+                    }
+                    else {
+                        resultObj.status = false;
+                    }
+                    reply(JSON.stringify(resultObj));
+                }
+            });
+        }
     }
 ];
 

@@ -55,6 +55,34 @@ function removeTokenFromDB(currentToken,currentTopic){
     xhr.send(JSON.stringify(payload));
 }
 
+function updateSubscriptionStatus(currentToken, currentTopic){
+    var xhr = new XMLHttpRequest();   // new HttpRequest instance
+    xhr.open('POST', '/subscriptionStatus', true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onload = function () {
+        var myObj = JSON.parse(this.responseText);
+        console.log(this.responseText);
+        var elem = document.getElementById("subscribe_button");
+        if (myObj.status)
+        {
+            elem.innerHTML = "Unsubscribe";
+        }
+        else
+        {
+            elem.innerHTML = "Subscribe";
+        }
+    };
+
+    var payload =
+    {
+        token : currentToken,
+        topic : currentTopic
+    };
+
+    xhr.send(JSON.stringify(payload));
+}
+
 function getCurrentBrowserName() {
     if(navigator.userAgent.indexOf("Opera") != -1 || navigator.userAgent.indexOf('OPR') != -1 ) 
     {
