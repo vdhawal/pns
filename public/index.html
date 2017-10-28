@@ -124,6 +124,7 @@ limitations under the License.
             console.log("Message received. ", payload);
             // [START_EXCLUDE]
             // Update the UI to include the received message.
+            alert(payload.notification.body);
             appendMessage(payload);
             // [END_EXCLUDE]
         });

@@ -132,8 +132,6 @@ function sendMessage(message, reciever){
     xhr.setRequestHeader("Authorization", "key="+sender_key);
 
     xhr.onload = function () {
-        // do something to response
-    reply(this.responseText);
     console.log(this.responseText);
     }; 
     var obj = {

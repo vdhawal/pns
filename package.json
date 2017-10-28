@@ -18,7 +18,8 @@
   "dependencies": {
     "hapi": "^16.6.2",
     "inert": "^4.2.1",
-    "mongodb": "^2.2.33"
+    "mongodb": "^2.2.33",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "eslint": "^4.9.0"
