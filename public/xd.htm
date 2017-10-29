@@ -2125,6 +2125,80 @@ div.button-container{
     width: 48px;
     background-color: transparent;
 }
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 3px;
+    border: 1px solid #888;
+    width: 40%;
+    min-height: 90px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 6px;
+    min-height: 30px;
+    background-color: rgb(123, 123, 123);
+;
+    color: white;
+}
+
+.modal-body {padding: 6px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+
+
 </style><script type="text/javascript" src="./Ginchy_Shopping_Platform_final_wires_files/satelliteLib-ac3e97c18d4786df6c583e1544f72088e70aee2a.js"></script><script src="./Ginchy_Shopping_Platform_final_wires_files/satellite-5642627664746d3f7d0069f2.js"></script>
 
 <!-- Import and configure the Firebase SDK -->
@@ -2201,8 +2275,12 @@ messaging.onMessage(function (payload) {
     console.log("Message received. ", payload);
     // [START_EXCLUDE]
     // Update the UI to include the received message.
-    alert(payload.notification.body);
-    appendMessage(payload);
+    var modal = document.getElementById('myModal');
+    var notificationBody = document.getElementById('notification-body');
+    var notificationTitle = document.getElementById('notification-title');
+    notificationBody.innerHTML = payload.notification.body;
+    notificationTitle.innerHTML = payload.notification.title;
+    modal.style.display = "block";
     // [END_EXCLUDE]
 });
 // [END receive_message]
@@ -2221,5 +2299,40 @@ window.addEventListener('load', refreshSubscriptionString);
 <div class = "button-container">
     <button id = "subscribe_button"onclick="sendSubscriptionRequest()"></button>
 </div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2 id = "notification-title" class="mdl-dialog__title"></h2>
+    </div>
+    <div class="mdl-dialog__content modal-body">
+      <p id = "notification-body"></p>
+    </div>
+  </div>
+
+</div>
+<script>
+    var modal = document.getElementById('myModal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
 
 <div id="zoomHeader" data-auto="zoomOptions" tabindex="1" class="zoomHeader-1jFQB"><div class="inputContainer-vp079"><input data-auto="zoomInputBox" class="zoomInput-1wfLE"><img data-auto="zoomDropdown" class="zoomDropdownIcon-3K0Km" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIGlkPSJTX0Ryb3Bkb3duXzEwX04iIHZpZXdCb3g9IjAgMCAxMCAxMCIgdmVyc2lvbj0iMS4xIgoJeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIKCXg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTBweCIgaGVpZ2h0PSIxMHB4Igo+Cgk8ZyBpZD0iTGF5ZXIlMjAxIj4KCQk8ZyBpZD0iU19Ecm9wZG93bl8xMF9OX2x0Ij4KCQkJPHBhdGggZD0iTSA1LjUyNTkgNy40NzUzIEwgOC43MDggNC4yOTM1IEMgOS4wMDEgNC4wMDA1IDkuMDAxIDMuNTI1NiA4LjcwOCAzLjIzMjkgQyA4LjQxNSAyLjkzOTkgNy45NDAyIDIuOTM5OSA3LjY0NzIgMy4yMzI5IEwgNC45OTU2IDUuODg0NSBMIDIuMzQ0IDMuMjMyOSBDIDIuMDUxIDIuOTM5OSAxLjU3NjIgMi45Mzk5IDEuMjgzMiAzLjIzMjkgQyAwLjk5MDIgMy41MjU2IDAuOTkwMiA0LjAwMDUgMS4yODMyIDQuMjkzNSBMIDQuNDY1MyA3LjQ3NTMgQyA0Ljc1ODMgNy43NjgzIDUuMjMyOSA3Ljc2ODMgNS41MjU5IDcuNDc1MyBaIiBmaWxsPSIjNjY2NjY2Ii8+CgkJPC9nPgoJPC9nPgo8L3N2Zz4="></div><div data-auto="zoomOptionContainer" class="optionsContainer-1ciAC" style="visibility: hidden;"><div class="unselectedZoomIndex-ueFrB"><label class="zoomLabel-3I7YR">10%</label></div><div class="unselectedZoomIndex-ueFrB"><label class="zoomLabel-3I7YR">15%</label></div><div class="unselectedZoomIndex-ueFrB"><label class="zoomLabel-3I7YR">25%</label></div><div class="unselectedZoomIndex-ueFrB"><label class="zoomLabel-3I7YR">50%</label></div><div class="unselectedZoomIndex-ueFrB"><label class="zoomLabel-3I7YR">75%</label></div><div class="unselectedZoomIndex-ueFrB"><label class="zoomLabel-3I7YR">100%</label></div></div></div><div class="signOut-1ZZrC"><button data-auto="signOutButton" class="signOutButton-3io1C">Sign Out</button></div></div></nav><!--empty if--><div class="desktopFooter-NvPaP"><div data-auto="reportAbuseLink" class="reportAbuse-2u3vi"><div data-auto="reportAbuseIcon" class="reportAbuseIcon-1E7y3"></div><div data-auto="reportAbuseLinkText" class="reportAbuseTitle-1Q05c">Report Abuse</div></div></div><!--empty if--><div data-auto="designSpecsBeta" class="designSpecsBeta-3EpHW" style="right: 24px;"><a target="_blank" data-auto="getHelpDesignSpecs" class="getHelpDesignSpecs-3jTIw" href="http://www.adobe.com/go/designspecs_help"><span class="designSpecsBetaText-1-G4i">Design Specs</span><span class="betaImage-bl8UD"></span></a></div></body></html>
