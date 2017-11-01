@@ -12,12 +12,18 @@ function sendNotificationToSelectedUsers(){
     var xhr = new XMLHttpRequest();   // new HttpRequest instance 
     xhr.open('POST', '/message', true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-   
+    var title = document.getElementById("Title").value;
+    var message = document.getElementById("Message").value;
+    var url = document.getElementById("Url").value;
+    if (title.length == 0 ) title = "Please look at me";
+    if (message.length == 0 ) message = "Thanks! Have a nice day";
+    if (url.length == 0) url = "https://adobe.com";
+
     var info = 
         {
-            title : document.getElementById("Title").value,
-            message : document.getElementById("Message").value,
-            Url : document.getElementById("Url").value,
+            title : title,
+            message : message,
+            url : url,
             users : userIds 
         };
     xhr.send(JSON.stringify(info));

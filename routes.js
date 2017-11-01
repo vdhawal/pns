@@ -112,7 +112,7 @@ const routes = [
             var users = request.payload.users;
             users.forEach( function(user) { 
                 try{
-                    sendMessage(request.payload.message, user);
+                    sendMessage(request.payload, user);
                 }
                 catch(e)
                 {
@@ -149,7 +149,7 @@ const routes = [
     }
 ];
 
-function sendMessage(message, reciever){
+function sendMessage(payload, reciever){
     
     var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
     var xhr = new XMLHttpRequest();   // new HttpRequest instance 
@@ -160,12 +160,20 @@ function sendMessage(message, reciever){
     xhr.onload = function () {
     console.log(this.responseText);
     }; 
+    var title = payload.title;
+    var message = payload.message;
+    var url = payload.url;
     var obj = {
         "notification":{
-            "title": "Sample Notification",
-            "body": message
+            "title": title,
+            "body": message,
+            "tag": url
+
         },
-        "to": reciever
+        "to": reciever,
+        "data": {
+            url: url
+        }
         }
         try{
             xhr.send(JSON.stringify(obj));
