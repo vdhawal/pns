@@ -125,6 +125,20 @@ limitations under the License.
             console.log("Message received. ", payload);
             // [START_EXCLUDE]
             // Update the UI to include the received message.
+            navigator.serviceWorker.register('../service-worker.js');
+            Notification.requestPermission(function(result) {
+                // result = 'allowed' / 'denied' / 'default'
+                console.log(result);
+                if (result !== 'denied') {
+                    navigator.serviceWorker.ready.then(function(registration) {
+                // Show notification. If the user clicks on this
+                // notification, then "notificationclick" is fired.
+                        registration.showNotification(payload.notification.title, {
+                          body: payload.notification.body
+                        });
+                    });
+                }
+            });
             appendMessage(payload);
             // [END_EXCLUDE]
         });

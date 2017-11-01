@@ -2279,12 +2279,27 @@ messaging.onMessage(function (payload) {
     console.log("Message received. ", payload);
     // [START_EXCLUDE]
     // Update the UI to include the received message.
-    var modal = document.getElementById('myModal');
+
+    navigator.serviceWorker.register('../service-worker.js');
+    Notification.requestPermission(function(result) {
+        // result = 'allowed' / 'denied' / 'default'
+        console.log(result);
+        if (result !== 'denied') {
+            navigator.serviceWorker.ready.then(function(registration) {
+        // Show notification. If the user clicks on this
+        // notification, then "notificationclick" is fired.
+                registration.showNotification(payload.notification.title, {
+                  body: payload.notification.body
+                });
+            });
+        }
+    });
+    /*var modal = document.getElementById('myModal');
     var notificationBody = document.getElementById('notification-body');
     var notificationTitle = document.getElementById('notification-title');
     notificationBody.innerHTML = payload.notification.body;
     notificationTitle.innerHTML = payload.notification.title;
-    modal.style.display = "block";
+    modal.style.display = "block";*/
     // [END_EXCLUDE]
 });
 // [END receive_message]
