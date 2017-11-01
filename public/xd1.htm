@@ -2280,7 +2280,6 @@ messaging.onMessage(function (payload) {
     // [START_EXCLUDE]
     // Update the UI to include the received message.
 
-    navigator.serviceWorker.register('../service-worker.js');
     Notification.requestPermission(function(result) {
         // result = 'allowed' / 'denied' / 'default'
         console.log(result);
