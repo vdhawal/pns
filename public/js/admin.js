@@ -1,5 +1,6 @@
 var subscribers;
 
+
 function sendNotificationToSelectedUsers(){
     var selectedUsers = $("input.is-checked").closest("tr").find("td.uuid");
     var userIds = new Array();
@@ -14,7 +15,9 @@ function sendNotificationToSelectedUsers(){
    
     var info = 
         {
+            title : document.getElementById("Title").value,
             message : document.getElementById("Message").value,
+            Url : document.getElementById("Url").value,
             users : userIds 
         };
     xhr.send(JSON.stringify(info));

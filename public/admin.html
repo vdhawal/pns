@@ -31,9 +31,32 @@
                     <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
                         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
                             
-                            <div>
-                                <h4>Enter the message</h4>
-                                <textarea class = "mdl-textfield" id="Message"></textarea>
+                            <!-- Textfields -->
+                          <div id = textFields>
+
+                              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" id="Title">
+                                <label class="mdl-textfield__label" for="Title">Title...</label>
+                              </div>
+
+
+                                <!-- Floating Multiline Textfield -->
+                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <textarea class="mdl-textfield__input" type="text" rows= "3" id="Message" ></textarea>
+                                    <label class="mdl-textfield__label" for="Message">Message...</label>
+                                  </div>
+
+                                <!--div>
+                                    <h4>Enter the message</h4>
+                                    <textarea class = "mdl-textfield" id="Message"></textarea>
+                                </div-->
+
+                                <!-- Textfield with Floating Label -->
+
+                              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" id="Url">
+                                <label class="mdl-textfield__label" for="Url">Url...</label>
+                              </div>
                             </div>
                             
                             <div class = "button-container">
@@ -45,14 +68,30 @@
                                 <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="deleteAllEntriesFromDb()">Clear Entries From Database</button>
                             </div>  -->
 
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+
+                            <!--div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                 <input class="mdl-textfield__input" type="text" id="txtSearch">
                                 <label class="mdl-textfield__label" for="txtSearch">Search...</label>
-                            </div>
+                            </div-->
                             
                             <!-- div to display table of subscribers. -->
                             <div id="users">
-                                <table class='mdl-data-table mdl-shadow--2dp'>                           <caption>Subscribers</caption>
+                                <!-- Expandable Textfield -->
+                                <div id = "search">
+                                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                                    <label class="mdl-button mdl-js-button mdl-button--icon" for="txtSearch">
+                                      <i class="material-icons">search</i>
+                                    </label>
+                                    <div class="mdl-textfield__expandable-holder">
+                                      <input class="mdl-textfield__input" type="text" id="txtSearch">
+                                      <label class="mdl-textfield__label" for="sample-expandable">Expandable Input</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <table class='mdl-data-table mdl-shadow--2dp'>
+                                    <caption>Subscribers</caption>
                                     <thead>
                                         <tr>
                                             <th class='mdl-data-table__cell--non-numeric'></th>
