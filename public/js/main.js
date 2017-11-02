@@ -1,22 +1,3 @@
-// register service worker
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../../service-worker.js').then(function(reg) {
-
-    if(reg.installing) {
-      console.log('Service worker installing');
-    } else if(reg.waiting) {
-      console.log('Service worker installed');
-    } else if(reg.active) {
-      console.log('Service worker active');
-    }
-
-  }).catch(function(error) {
-    // registration failed
-    console.log('Registration failed with ' + error);
-  });
-}
-
 // Send the Instance ID token your application server, so that it can:
 // - send messages back to this app
 // - subscribe/unsubscribe the token from topics

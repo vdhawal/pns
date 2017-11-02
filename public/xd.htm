@@ -2218,6 +2218,10 @@ div.button-container{
 const messaging = firebase.messaging();
 // [END get_messaging_object]
 
+navigator.serviceWorker.register('service-worker.js').then((registration) => {
+    messaging.useServiceWorker(registration);
+});
+
 const DocId = "Doc-1";
 
 
